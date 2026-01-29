@@ -47,20 +47,18 @@ with tab1:
 
         st.divider()
 
-        # 棒グラフ
+        # 件数折れ線グラフ
         st.subheader('1. 年度別の推移')
         
-        # Matplotlibを使ってグラフを描く
         fig, ax = plt.subplots(figsize=(6, 4))
-        ax.bar(['2023', '2024'], [pref_data['23年件数'], pref_data['24年件数']], color=['lightgray', 'khaki'])
+        ax.plot(['2023', '2024'], [pref_data['23年件数'], pref_data['24年件数']], marker='o', color='blue')
         
-        # ここで単位を追加！
         ax.set_ylabel('Cases') 
         ax.set_title('Year')
         
         st.pyplot(fig)
 
-    # 増減率折れ線グラフ
+    # 増減率棒グラフ
     st.subheader('2. 選択した地域の増減比較')
 
     pref_map = {
@@ -73,9 +71,10 @@ with tab1:
     '福岡県': 'Fukuoka', '佐賀県': 'Saga', '長崎県': 'Nagasaki', '熊本県': 'Kumamoto', '大分県': 'Oita', '宮崎県': 'Miyazaki', '鹿児島県': 'Kagoshima', '沖縄県': 'Okinawa',
     }
     
+    filtered_df = filtered_df.copy()
     filtered_df['Pref_En'] = filtered_df['都道府県'].map(pref_map)
     fig2, ax2 = plt.subplots(figsize=(8, 4))
-    ax2.plot(filtered_df['Pref_En'], filtered_df['増減率'], marker='o', color='blue')
+    ax2.bar(filtered_df['Pref_En'], filtered_df['増減率'], color='khaki')
     
     ax2.set_ylabel('Change in cases')
     ax2.set_xlabel('Prefecture')
